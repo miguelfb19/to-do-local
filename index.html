@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#eef6ff" />
+    <meta name="description" content="Lista de tareas PWA en español con flujo claro y diseño moderno." />
+    <link rel="manifest" href="manifest.webmanifest" type="application/manifest+json" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Ritmo — To-Do</title>
+  </head>
+  <body>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <main class="app">
+      <header class="header panel">
+        <div>
+          <p class="kicker">PWA personal</p>
+          <h1>Ritmo</h1>
+          <p class="sub">Qué hacer ahora, sin ruido.</p>
+        </div>
+        <div class="header-actions">
+          <button id="btnInstall" class="icon-btn" title="Instalar app" aria-label="Instalar app" hidden></button>
+          <button id="btnShowArchived" class="icon-btn" title="Ver archivo" aria-label="Ver archivo"></button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="sidebar panel" aria-label="Controles">
+          <section>
+            <h2>Crear tarea</h2>
+            <form id="taskForm" class="stack" autocomplete="off">
+              <label class="sr-only" for="taskInput">Descripción</label>
+              <input id="taskInput" type="text" maxlength="180" placeholder="Ej. Preparar propuesta del viernes" required />
+              <button id="btnCreate" class="icon-btn primary" type="submit" title="Crear tarea" aria-label="Crear tarea"></button>
+              <div id="taskColorPicker" class="task-color-picker" role="group" aria-label="Etiqueta de color"></div>
+            </form>
+          </section>
+
+          <section>
+            <h2>Buscar y filtrar</h2>
+            <label class="sr-only" for="searchInput">Buscar tarea</label>
+            <input id="searchInput" type="search" placeholder="Buscar descripción" />
+            <div class="filters" role="group" aria-label="Filtrar tareas">
+              <button class="filter-btn is-active" data-filter="all" type="button">Todo</button>
+              <button class="filter-btn" data-filter="pending" type="button">Pendientes</button>
+              <button class="filter-btn" data-filter="completed" type="button">Completas</button>
+            </div>
+          </section>
+
+          <section>
+            <h2>Importar/exportar Datos</h2>
+            <div class="selection-row">
+              <button id="btnExport" class="icon-btn" title="Exportar JSON" aria-label="Exportar JSON"></button>
+              <label class="icon-btn" for="importInput" title="Importar JSON" aria-label="Importar JSON" role="button" tabindex="0"></label>
+              <input id="importInput" type="file" accept="application/json" hidden />
+            </div>
+          </section>
+        </aside>
+
+        <section class="content panel" aria-label="Lista de tareas">
+          <div class="content-head">
+            <h2>Tareas</h2>
+            <div class="content-head-actions">
+              <p id="resultsText" class="results"></p>
+              <div class="select-shortcuts">
+                <button id="selectPending" class="btn-inline" type="button">Seleccionar pendientes</button>
+                <button id="selectCompleted" class="btn-inline" type="button">Seleccionar completas</button>
+                <button id="selectAll" class="btn-inline" type="button">Seleccionar todas</button>
+              </div>
+            </div>
+          </div>
+          <div id="bulkBar" class="bulk-toolbar" role="group" aria-label="Acciones masivas" hidden>
+            <p id="bulkCount" class="bulk-count"></p>
+            <div class="bulk-actions">
+              <button id="bulkComplete" class="icon-btn" title="Completar seleccionadas" aria-label="Completar seleccionadas"></button>
+              <button id="bulkPending" class="icon-btn" title="Marcar pendientes" aria-label="Marcar pendientes"></button>
+              <button id="bulkArchive" class="icon-btn" title="Archivar seleccionadas" aria-label="Archivar seleccionadas"></button>
+              <button id="bulkDelete" class="icon-btn danger" title="Eliminar completas seleccionadas" aria-label="Eliminar completas seleccionadas"></button>
+            </div>
+          </div>
+          <ul id="taskList" class="task-list"></ul>
+          <p id="emptyState" class="empty">No hay tareas para este filtro.</p>
+        </section>
+      </div>
+
+      <section id="archivedSheet" class="sheet" hidden>
+        <div class="sheet-head">
+          <h2>Archivo</h2>
+          <button id="btnCloseArchived" class="icon-btn" title="Cerrar archivo" aria-label="Cerrar archivo"></button>
+        </div>
+        <ul id="archivedList" class="task-list"></ul>
+        <p id="archivedEmpty" class="empty">No hay tareas archivadas.</p>
+      </section>
+
+      <div id="toast" class="toast" hidden></div>
+    </main>
+
+    <dialog id="appModal" class="modal">
+      <form id="modalForm" method="dialog" class="modal-card">
+        <div class="modal-head">
+          <h3 id="modalTitle"></h3>
+        </div>
+        <p id="modalBody"></p>
+        <label id="modalInputWrap" class="modal-input-wrap" hidden>
+          <span class="sr-only">Valor</span>
+          <input id="modalInput" type="text" maxlength="180" />
+        </label>
+        <div class="modal-actions">
+          <button id="modalCancel" class="btn-lite" value="cancel" type="button">Cancelar</button>
+          <button id="modalConfirm" class="btn-lite primary" value="confirm" type="submit">Aceptar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
